@@ -5,9 +5,37 @@
   <title>MeetupTitle</title>
 </head>
 <body>
+<div id="app">
+  <div>
+    <label>
+      <input v-model="id" type="radio" name="meetup-title" value="1">
+      <span>1</span>
+    </label>
+    
+    <label>
+      <input v-model="id" type="radio" name="meetup-title" value="2">
+      <span>2</span>
+    </label>
+    
+    <label>
+      <input v-model="id" type="radio" name="meetup-title" value="3">
+      <span>3</span>
+    </label>
+    
+    <label>
+      <input v-model="id" type="radio" name="meetup-title" value="4">
+      <span>4</span>
+    </label>
+    
+    <label>
+      <input v-model="id" type="radio" name="meetup-title" value="5">
+      <span>5</span>
+    </label>
+  </div>
+  
+  <h1>{{meetup.title}}</h1>
 
-<!-- Решение -->
-
+</div>
 <script type="module" src="script.js"></script>
 </body>
 </html>
