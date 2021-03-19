@@ -44,4 +44,43 @@ const getAgendaItemIcons = () => ({
   other: 'cal-sm',
 });
 
-new Vue();
+new Vue({
+  data() {
+    return {
+      rawMeetup: null,
+    }
+  },
+  methods: {
+    fetchMeetup(id) {
+      fetch(`${API_URL}/meetups/${MEETUP_ID}`)
+      .then(res => res.json())
+      .then(meetup => {
+        this.rawMeetup = meetup;
+      })
+    },
+  },
+  computed: {
+    meetup() {
+      return {
+        ...this.rawMeetup,
+        imageUrl: this.rawMeetup.imageId ? getImageUrlByImageId(this.rawMeetup.imageId): null,
+        dateStringOnly: new Date(this.rawMeetup.date).toISOString().split('T')[0],
+        localDate: new Date(this.rawMeetup.date).toLocaleString(navigator.language, {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        }),
+        agenda: this.rawMeetup.agenda.map(event => ({
+          ...event,
+          formattedTitle: event.title ? event.title : getAgendaItemDefaultTitles()[event.type],
+          icon: getAgendaItemIcons()[event.type],
+        })),
+      }
+    },
+    
+  },
+  mounted() {
+    this.fetchMeetup();
+  },
+  el: '#app',
+});
