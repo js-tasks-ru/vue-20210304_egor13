@@ -1,7 +1,7 @@
 export default {
   name: 'MeetupDescription',
-
-  // Входные параметры
-
-  template: `<p class="meetup-description">Описание должно быть здесь</p>`,
+  props: {
+    description: String,
+  },
+  template: `<p v-if="description" class="meetup-description">{{description}}</p>`,
 };
