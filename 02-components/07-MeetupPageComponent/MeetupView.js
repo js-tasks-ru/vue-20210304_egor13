@@ -14,7 +14,8 @@ export default {
   },
   computed: {
     imgUrl() {
-      return getImageUrlByImageId(this.meetup.imageId)
+      const {imageId} = this.meetup;
+      return imageId ? getImageUrlByImageId(imageId) : null
     },
     date() {
       return new Date(this.meetup.date)
