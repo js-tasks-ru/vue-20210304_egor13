@@ -1,31 +1,79 @@
-/*
-  Полезные функции по работе с датой можно описать вне Vue компонента
- */
+import {getFreshDays} from './data.js';
 
 export const MeetupsCalendar = {
   name: 'MeetupsCalendar',
+  props: {
+    meetups: {
+      type: Array,
+      required: true,
+    }
+  },
+  data() {
+    return {
+      date: new Date(),
+      currentMonth: null,
+      currentYear: null,
+    }
+  },
+  computed: {
+    month() {
+      return this.date.toLocaleString(navigator.language, {
+        month: 'long',
+      });
+    },
+    year() {
+      return this.date.toLocaleString(navigator.language, {
+        year: 'numeric',
+      })
+    },
+    preparedDays() {
+      let result = getFreshDays(this.date).map(day => {
+        const dayMeetups = this.meetups.filter(meetup => day.date.getDate() === new Date(meetup.date).getDate())
+        return {
+          ...day,
+          meetups: dayMeetups.length ? dayMeetups : null,
+        }
+      })
+      return result
+    },
+  },
+  methods: {
+    increaseMonth() {
+      const newMonth = this.date.getMonth() + 1;
+      this.date = new Date(this.date.setMonth(newMonth));
+    },
+    decreaseMonth() {
+      const newMonth = this.date.getMonth() - 1;
+      this.date = new Date(this.date.setMonth(newMonth));
+    },
+  },
 
   template: `<div class="rangepicker">
     <div class="rangepicker__calendar">
       <div class="rangepicker__month-indicator">
         <div class="rangepicker__selector-controls">
-          <button class="rangepicker__selector-control-left"></button>
-          <div>Июнь 2020</div>
-          <button class="rangepicker__selector-control-right"></button>
+          <button class="rangepicker__selector-control-left" @click="decreaseMonth"></button>
+          <div>{{ month }} {{ year }}</div>
+          <button class="rangepicker__selector-control-right" @click="increaseMonth"></button>
         </div>
       </div>
       <div class="rangepicker__date-grid">
-        <div class="rangepicker__cell rangepicker__cell_inactive">28</div>
-        <div class="rangepicker__cell rangepicker__cell_inactive">29</div>
-        <div class="rangepicker__cell rangepicker__cell_inactive">30</div>
-        <div class="rangepicker__cell rangepicker__cell_inactive">31</div>
-        <div class="rangepicker__cell">
-          1
-          <a class="rangepicker__event">Митап</a>
-          <a class="rangepicker__event">Митап</a>
+
+        <div 
+          v-for="day in preparedDays"
+          class="rangepicker__cell" 
+          :class="{ rangepicker__cell_inactive: !day.isActive}"
+        >
+          {{day.dateDay}}
+          <template v-if="day.meetups">
+            <a 
+              v-for="meetup in day.meetups"
+              class="rangepicker__event"
+            >
+              {{ meetup.title }}
+            </a>
+          </template>
         </div>
-        <div class="rangepicker__cell">2</div>
-        <div class="rangepicker__cell">3</div>
       </div>
     </div>
   </div>`,
