@@ -1,4 +1,4 @@
-import {getFreshDays} from './data.js';
+import { getFreshDays } from './data.js';
 
 export const MeetupsCalendar = {
   name: 'MeetupsCalendar',
@@ -6,14 +6,14 @@ export const MeetupsCalendar = {
     meetups: {
       type: Array,
       required: true,
-    }
+    },
   },
   data() {
     return {
       date: new Date(),
       currentMonth: null,
       currentYear: null,
-    }
+    };
   },
   computed: {
     month() {
@@ -24,17 +24,17 @@ export const MeetupsCalendar = {
     year() {
       return this.date.toLocaleString(navigator.language, {
         year: 'numeric',
-      })
+      });
     },
     preparedDays() {
-      let result = getFreshDays(this.date).map(day => {
-        const dayMeetups = this.meetups.filter(meetup => day.date.getDate() === new Date(meetup.date).getDate())
+      let result = getFreshDays(this.date).map((day) => {
+        const dayMeetups = this.meetups.filter((meetup) => day.date.getDate() === new Date(meetup.date).getDate());
         return {
           ...day,
           meetups: dayMeetups.length ? dayMeetups : null,
-        }
-      })
-      return result
+        };
+      });
+      return result;
     },
   },
   methods: {

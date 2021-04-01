@@ -9,7 +9,7 @@ export default {
     agenda: {
       type: Array,
       required: true,
-    }
+    },
   },
 
   template: `

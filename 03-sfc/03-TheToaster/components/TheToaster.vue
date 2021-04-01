@@ -1,35 +1,63 @@
 <template>
   <div class="toasts">
-    <div class="toast toast_success">
-      <app-icon icon="check-circle" />
-      <span>Success 1</span>
-    </div>
-    <div class="toast toast_success">
-      <app-icon icon="check-circle" />
-      <span>Success 2</span>
-    </div>
-    <!-- ... -->
-    <div class="toast toast_error">
-      <app-icon icon="alert-circle" />
-      <span>Error 1</span>
-    </div>
+    <template v-if="messages.length !== 0">
+      <toaster-message v-for="messageItem in messages" :key="messageItem.id" :messageItem="messageItem" />
+    </template>
+    <!-- <div v-for="{ id, classMod, message, icon } in messages" :key="id" class="toast toast_success" :class="classMod">
+      <app-icon :icon="icon" />
+      <span>{{ message }}</span>
+    </div> -->
   </div>
 </template>
 
 <script>
-import AppIcon from './AppIcon';
+import ToasterMessage from './ToasterMessage';
 
-// const DELAY = 5000;
+import { nanoid } from 'nanoid';
 
 export default {
   name: 'TheToaster',
 
-  components: { AppIcon },
+  components: { ToasterMessage },
+
+  data() {
+    return {
+      messages: [],
+    };
+  },
+
+  DELAY: 5000,
 
   methods: {
-    // error(message) {},
+    error(message) {
+      const id = nanoid();
+      this.messages.push({
+        id,
+        title: message,
+        classMod: 'toast_error',
+        icon: 'alert-circle',
+      });
 
-    // success(message) {},
+      this.setRemoveDelay(id);
+    },
+
+    success(message) {
+      const id = nanoid();
+      this.messages.push({
+        id,
+        title: message,
+        classMod: 'toast_success',
+        icon: 'check-circle',
+      });
+
+      this.setRemoveDelay(id);
+    },
+
+    setRemoveDelay(id) {
+      setTimeout(() => {
+        this.messages = this.messages.filter((msg) => msg.id !== id);
+      }, this.$options.DELAY);
+    },
   },
 };
 </script>
@@ -44,42 +72,5 @@ export default {
   justify-content: flex-end;
   white-space: pre-wrap;
   z-index: 999;
-}
-
-.toast {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px;
-  background: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  font-size: 18px;
-  line-height: 28px;
-  width: auto;
-}
-
-.toast + .toast {
-  margin-top: 20px;
-}
-
-.toast > .icon {
-  margin-right: 12px;
-}
-
-.toast.toast_success {
-  color: var(--green);
-}
-
-.toast.toast_error {
-  color: var(--red);
-}
-
-@media all and (min-width: 992px) {
-  .toasts {
-    bottom: 72px;
-    right: 112px;
-  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group" :class="{'form-group_inline': inline}">
+  <div class="form-group" :class="{ 'form-group_inline': inline }">
     <label v-if="label" class="form-label">
       {{ label }}
     </label>
@@ -16,8 +16,9 @@ export default {
       type: Boolean,
       default: false,
     },
+
     label: String,
-  }
+  },
 };
 </script>
 

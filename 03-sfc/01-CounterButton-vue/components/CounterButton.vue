@@ -1,25 +1,27 @@
 <template>
-    <button type="button" @click="handleClick">{{ count }}</button>
+  <button type="button" @click="handleClick">{{ count }}</button>
 </template>
 
 <script>
 export default {
-    name: 'CounterButton',
-    props: {
-        count: {
-            type: Number,
-            default: 0,
-        }
+  name: 'CounterButton',
+  model: {
+    prop: 'count',
+    event: 'increment',
+  },
+
+  props: {
+    count: {
+      type: Number,
+      default: 0,
     },
-    model: {
-        prop: 'count',
-        event: 'increment',
+  },
+
+  methods: {
+    handleClick() {
+      this.$emit('increment', this.count + 1);
     },
-    methods: {
-        handleClick() {
-            this.$emit('increment', this.count + 1)
-        }
-    }
+  },
 };
 </script>
 

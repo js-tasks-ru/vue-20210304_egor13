@@ -30,35 +30,34 @@ import Vue from './vendor/vue.esm.browser.js';
 //   'Isaias_Kuhic@jarrett.net',
 // ];
 
-
 new Vue({
+  el: '#app',
   data() {
     return {
       rawEmails: null,
       searchQuery: '',
-    }
+    };
   },
+
   computed: {
     emails() {
-      return this.searchQuery ? 
-      this.rawEmails?.map(email => ({
-        ...email,
-        matchQuery: email.address.toUpperCase().includes(this.searchQuery.toUpperCase()),
-      }))
-      :
-      this.rawEmails
-    } 
-      
+      return this.searchQuery
+        ? this.rawEmails?.map((email) => ({
+            ...email,
+            matchQuery: email.address.toUpperCase().includes(this.searchQuery.toUpperCase()),
+          }))
+        : this.rawEmails;
+    },
   },
+
   created() {
     fetch('https://jsonplaceholder.typicode.com/comments')
-      .then(res => res.json())
-      .then(postList => {
-        this.rawEmails = postList.map(post => ({
+      .then((res) => res.json())
+      .then((postList) => {
+        this.rawEmails = postList.map((post) => ({
           address: post.email,
-          matchQuery: false
-        }))
-      })
+          matchQuery: false,
+        }));
+      });
   },
-  el: '#app',
 });

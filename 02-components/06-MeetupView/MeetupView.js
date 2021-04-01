@@ -10,15 +10,15 @@ export default {
     meetup: {
       type: Object,
       required: true,
-    }
+    },
   },
   computed: {
     imgUrl() {
-      return getImageUrlByImageId(this.meetup.imageId)
+      return getImageUrlByImageId(this.meetup.imageId);
     },
     date() {
-      return new Date(this.meetup.date)
-    }
+      return new Date(this.meetup.date);
+    },
   },
   components: {
     MeetupCover,
