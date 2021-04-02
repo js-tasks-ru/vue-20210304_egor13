@@ -4,7 +4,7 @@ export default {
     count: {
       type: Number,
       default: 0,
-    }
+    },
   },
   model: {
     prop: 'count',
@@ -12,8 +12,8 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$emit('increment', this.count+1);
-    }
+      this.$emit('increment', this.count + 1);
+    },
   },
 
   // Компонент должен иметь входной параметр

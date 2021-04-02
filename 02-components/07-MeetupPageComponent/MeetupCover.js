@@ -7,7 +7,7 @@ export default {
   computed: {
     style() {
       return this.link ? `--bg-url: url("${this.link}")` : null;
-    }
+    },
   },
   template: `
     <div 

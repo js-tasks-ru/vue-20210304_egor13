@@ -5,15 +5,14 @@ export default {
   name: 'MeetupPage',
   data() {
     return {
-        meetup: null,
-    }
-  }, 
+      meetup: null,
+    };
+  },
   components: {
     MeetupView,
   },
   mounted() {
-    fetchMeetup(MEETUP_ID)
-      .then(meetup => this.meetup = meetup)
+    fetchMeetup(MEETUP_ID).then((meetup) => (this.meetup = meetup));
   },
   template: `<div>
     <meetup-view v-if="meetup" :meetup="meetup"/>

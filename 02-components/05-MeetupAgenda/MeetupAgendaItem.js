@@ -11,11 +11,11 @@ export default {
   computed: {
     iconSrc() {
       const icon = getAgendaItemIcons()[this.agendaItem.type];
-      return `/assets/icons/icon-${icon}.svg`
+      return `/assets/icons/icon-${icon}.svg`;
     },
     title() {
-      const {title, type} = this.agendaItem;
-      return title ? title : getAgendaItemDefaultTitles()[type]
+      const { title, type } = this.agendaItem;
+      return title ? title : getAgendaItemDefaultTitles()[type];
     },
   },
 

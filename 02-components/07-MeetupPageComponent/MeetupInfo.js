@@ -12,11 +12,10 @@ export default {
     date: {
       type: Date,
       required: true,
-    }
+    },
   },
   computed: {
     dateOnlyString() {
-      console.log(this.date);
       return this.date.toISOString().split('T')[0];
     },
     localDate() {
@@ -25,7 +24,7 @@ export default {
         month: 'short',
         day: 'numeric',
       });
-    }
+    },
   },
 
   template: `

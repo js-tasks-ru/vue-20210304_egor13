@@ -10,16 +10,16 @@ export default {
     meetup: {
       type: Object,
       required: true,
-    }
+    },
   },
   computed: {
     imgUrl() {
-      const {imageId} = this.meetup;
-      return imageId ? getImageUrlByImageId(imageId) : null
+      const { imageId } = this.meetup;
+      return imageId ? getImageUrlByImageId(imageId) : null;
     },
     date() {
-      return new Date(this.meetup.date)
-    }
+      return new Date(this.meetup.date);
+    },
   },
   components: {
     MeetupCover,
