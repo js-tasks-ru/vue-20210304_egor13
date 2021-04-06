@@ -9,11 +9,13 @@ module.exports = {
     es2020: true,
   },
 
-  extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/prettier'],
+  extends: ['plugin:vue/essential',
+   'eslint:recommended',
+   '@vue/prettier'
+  ],
 
   parserOptions: {
     parser: '@babel/eslint-parser',
-    fix: true,
   },
 
   rules: {

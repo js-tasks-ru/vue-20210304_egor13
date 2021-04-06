@@ -80,6 +80,7 @@ module.exports = {
     },
     ...taskPages,
   },
+  lintOnSave: false,
   chainWebpack: (config) => {
     config.plugin('define').tap((args) => {
       args[0]['process.env.TASKBOOK_TASKS'] = JSON.stringify(tasks);
