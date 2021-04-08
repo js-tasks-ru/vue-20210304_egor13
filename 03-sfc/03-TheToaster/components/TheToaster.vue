@@ -1,19 +1,11 @@
 <template>
   <div class="toasts">
-    <template v-if="messages.length !== 0">
-      <toaster-message v-for="messageItem in messages" :key="messageItem.id" :messageItem="messageItem" />
-    </template>
-    <!-- <div v-for="{ id, classMod, message, icon } in messages" :key="id" class="toast toast_success" :class="classMod">
-      <app-icon :icon="icon" />
-      <span>{{ message }}</span>
-    </div> -->
+    <toaster-message v-for="(messageItem, i) in messages" :key="i" :messageItem="messageItem" />
   </div>
 </template>
 
 <script>
 import ToasterMessage from './ToasterMessage';
-
-import { nanoid } from 'nanoid';
 
 export default {
   name: 'TheToaster',
@@ -30,33 +22,29 @@ export default {
 
   methods: {
     error(message) {
-      const id = nanoid();
       this.messages.push({
-        id,
         title: message,
-        classMod: 'toast_error',
-        icon: 'alert-circle',
+        type: 'error',
+        // classMod: 'toast_error',
+        // icon: 'alert-circle',
       });
 
-      this.setRemoveDelay(id);
+      this.setRemoveDelay();
     },
 
     success(message) {
-      const id = nanoid();
       this.messages.push({
-        id,
         title: message,
-        classMod: 'toast_success',
-        icon: 'check-circle',
+        type: 'success',
+        // classMod: 'toast_success',
+        // icon: 'check-circle',
       });
 
-      this.setRemoveDelay(id);
+      this.setRemoveDelay();
     },
 
-    setRemoveDelay(id) {
-      setTimeout(() => {
-        this.messages = this.messages.filter((msg) => msg.id !== id);
-      }, this.$options.DELAY);
+    setRemoveDelay() {
+      setTimeout(() => this.messages.shift(), this.$options.DELAY);
     },
   },
 };

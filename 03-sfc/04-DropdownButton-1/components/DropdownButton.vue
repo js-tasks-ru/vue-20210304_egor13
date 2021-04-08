@@ -60,14 +60,17 @@ export default {
   },
 
   computed: {
-    selectedIcon() {
+    selected() {
       if (!this.value) return null;
-      return this.options.find((option) => option.value === this.value).icon;
+      return this.options.find((option) => option.value === this.value);
+    },
+
+    selectedIcon() {
+      return this.selected ? this.selected.icon : null;
     },
 
     selectedText() {
-      if (!this.value) return null;
-      return this.options.find((option) => this.value === option.value).text;
+      return this.selected ? this.selected.text : null;
     },
 
     hasIcon() {

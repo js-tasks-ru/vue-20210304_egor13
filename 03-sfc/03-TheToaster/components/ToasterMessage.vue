@@ -1,6 +1,6 @@
 <template>
-  <div class="toast" :class="messageItem.classMod">
-    <app-icon :icon="messageItem.icon" />
+  <div class="toast" :class="view.class">
+    <app-icon :icon="view.icon" />
     <span>{{ messageItem.title }}</span>
   </div>
 </template>
@@ -13,6 +13,20 @@ export default {
   components: { AppIcon },
   props: {
     messageItem: Object,
+  },
+
+  computed: {
+    view() {
+      return this.messageItem.type === 'success'
+        ? {
+            class: 'toast_success',
+            icon: 'check-circle',
+          }
+        : {
+            class: 'toast_error',
+            icon: 'alert-circle',
+          };
+    },
   },
 };
 </script>
