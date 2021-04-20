@@ -1,47 +1,98 @@
 <template>
-  <form class="form">
-    <div class="form-group">
-      <label class="form-label">Email</label>
+  <form class="form" @submit.prevent="handleSubmit">
+    <form-group label="Email">
       <div class="input-group">
-        <input type="email" class="form-control" />
+        <input type="email" class="form-control" v-model="email"/>
       </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Имя</label>
+    </form-group>
+    <form-group label="Имя">
       <div class="input-group">
-        <input type="text" class="form-control" />
+        <input type="text" class="form-control" v-model="userName"/>
       </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Пароль</label>
+    </form-group>
+    <form-group label="Пароль">
       <div class="input-group">
-        <input type="password" class="form-control" />
+        <input type="password" class="form-control" v-model="password"/>
       </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Повтор пароля</label>
+    </form-group>
+    <form-group label="Повтор пароля">
       <div class="input-group">
-        <input type="password" class="form-control" />
+        <input type="password" class="form-control" v-model="doublePassword"/>
       </div>
-    </div>
+    </form-group>
     <div class="form-group">
-      <label class="checkbox"><input type="checkbox" /> Я согласен с условиями <span></span></label>
+      <label class="checkbox"><input type="checkbox" v-model="confirm"/> Я согласен с условиями <span></span></label>
     </div>
     <div class="form__buttons">
       <button type="submit" class="button button_primary">Зарегистрироваться</button>
     </div>
     <div class="form__append">
       Уже есть аккаунт?
-      <a class="link">Войдите</a>
+      <router-link class="link" to="/login">Войдите</router-link>
     </div>
   </form>
 </template>
 
 <script>
-// import { register } from '../data';
+import FormGroup from '../../../03-sfc/02-FormGroup/components/FormGroup.vue';
+import { register } from '../data';
 
 export default {
+  components: { FormGroup },
   name: 'RegisterPage',
+  data() {
+    return {
+      email: '',
+      userName: '',
+      password: '',
+      doublePassword: '',
+      confirm: false,
+    }
+  },
+  methods: {
+    handleSubmit() {
+      const isCorrect = this.checkFormFields();
+      if(!isCorrect) return
+
+      register(this.email, this.userName, this.password)
+        .then(res => {
+          if(res.error) {
+            alert(res.message);
+            return
+          }
+
+          alert(res.id);
+          this.$router.push('/login');
+        });
+    },
+
+    checkFormFields() {
+      const {email, userName, password, doublePassword, confirm} = this;
+
+      if(!email) {
+        alert('Требуется ввести Email');
+        return false;
+      }
+      if(!userName) {
+        alert('Требуется ввести полное имя');
+        return false;
+      }
+      if(!password) {
+        alert('Требуется ввести пароль');
+        return false;
+      }
+      if(password !== doublePassword) {
+        alert('Пароли не совпадают');
+        return false;
+      }
+      if(!confirm) {
+        alert('Требуется согласиться с условиями');
+        return false;
+      }
+
+      return true
+    }
+  }
 };
 </script>
 
