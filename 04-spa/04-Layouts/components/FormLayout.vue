@@ -1,8 +1,18 @@
-<template></template>
+<template>
+  <div class="page page_meetup-forms">
+    <div class="container">
+      <h1 class="page__title">{{ title }}</h1>
+      <slot />
+    </div>
+  </div>
+</template>
 
 <script>
 export default {
   name: 'FormLayout',
+  props: {
+    title: String,
+  }
 };
 </script>
 
