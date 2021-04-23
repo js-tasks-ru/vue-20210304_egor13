@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>{{ title }}</h1>
+    <h1 class="page__title">{{ title }}</h1>
     <slot />
   </div>
 </template>

@@ -2,7 +2,9 @@
  <div class="wrapper bg-grey">
    <the-header />
     <main class="main">
-      <slot />
+      <div class="page page_onboarding">
+        <slot />
+      </div>
     </main>
     <the-footer />
  </div>
