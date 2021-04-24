@@ -1,11 +1,11 @@
 <template>
- <div class="wrapper bg-grey">
-   <the-header />
+  <div class="wrapper bg-grey">
+    <the-header />
     <main class="main">
       <slot />
     </main>
     <the-footer />
- </div>
+  </div>
 </template>
 
 <script>
@@ -17,7 +17,7 @@ export default {
   components: {
     TheHeader,
     TheFooter,
-  }
+  },
 };
 </script>
 

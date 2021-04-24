@@ -3,7 +3,7 @@
     <div>
       <h1>
         <a href="/" class="router-link-exact-active router-link-active">
-          <img src="@/assets/logo.svg" alt="Meetups"/>
+          <img src="@/assets/logo.svg" alt="Meetups" />
         </a>
       </h1>
     </div>

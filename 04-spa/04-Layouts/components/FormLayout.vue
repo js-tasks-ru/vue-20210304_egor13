@@ -12,7 +12,7 @@ export default {
   name: 'FormLayout',
   props: {
     title: String,
-  }
+  },
 };
 </script>
 
