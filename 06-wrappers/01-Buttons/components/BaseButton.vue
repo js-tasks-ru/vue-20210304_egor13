@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     type() {
-      return this.componentTag === 'button' ? 'button' : null;
+      return this.tag === 'button' ? 'button' : null;
     },
   },
 };

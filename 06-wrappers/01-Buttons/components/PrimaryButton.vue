@@ -10,6 +10,7 @@ import BaseButton from './BaseButton';
 export default {
   name: 'PrimaryButton',
   components: {BaseButton},
+  inheritAttrs: false,
 };
 </script>
 
