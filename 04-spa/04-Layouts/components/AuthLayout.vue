@@ -12,7 +12,7 @@ export default {
   name: 'AuthLayout',
   props: {
     title: String,
-  }
+  },
 };
 </script>
 

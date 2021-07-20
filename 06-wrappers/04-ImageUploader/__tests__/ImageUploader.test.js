@@ -60,7 +60,7 @@ describe('wrappers/ImageUploader', () => {
         expect(wrapper.find('label').classes('image-uploader__preview-loading')).toBe(false);
       });
 
-      it(`ImageUploader должен переходить в состояние загрузки и выводить "${LOADING_TEXT}" и иметь юimage-uploader__preview-loading после выбора изображения на время загрузки`, async () => {
+      it(`ImageUploader должен переходить в состояние загрузки и выводить "${LOADING_TEXT}" и иметь image-uploader__preview-loading после выбора изображения на время загрузки`, async () => {
         await mockFile();
         expect(wrapper.text()).toContain(LOADING_TEXT);
         expect(wrapper.find('label').classes('image-uploader__preview-loading')).toBe(true);

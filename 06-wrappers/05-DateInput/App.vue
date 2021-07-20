@@ -3,14 +3,14 @@
     <h3>Number Value - {{ valueAsNumber }}</h3>
     <p>[type=date] <date-input v-model="valueAsNumber" /></p>
     <p>[type=time] <date-input v-model="valueAsNumber" type="time" /></p>
-    <p>[type=time][step=30] <date-input v-model="valueAsNumber" type="time" step="30" /></p>
-    <p>[type=datetime-local] <date-input v-model="valueAsNumber" type="datetime-local" /></p>
+    <!--    <p>[type=time][step=30] <date-input v-model="valueAsNumber" type="time" step="30" /></p>-->
+    <!--    <p>[type=datetime-local] <date-input v-model="valueAsNumber" type="datetime-local" /></p>-->
 
     <h3>Date Value - UTC Date: {{ valueAsDate.toUTCString() }}</h3>
     <p>[type=date] <date-input v-model="valueAsDate" /></p>
     <p>[type=time] <date-input v-model="valueAsDate" type="time" /></p>
-    <p>[type=time][step=30] <date-input v-model="valueAsDate" type="time" step="30" /></p>
-    <p>[type=datetime-local] <date-input v-model="valueAsDate" type="datetime-local" /></p>
+    <!--    <p>[type=time][step=30] <date-input v-model="valueAsDate" type="time" step="30" /></p>-->
+    <!--    <p>[type=datetime-local] <date-input v-model="valueAsDate" type="datetime-local" /></p>-->
 
     <h3>String Value - {{ value }}</h3>
     <p><date-input v-model="value" /></p>
