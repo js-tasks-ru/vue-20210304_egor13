@@ -27,124 +27,91 @@ export default {
   computed: {
     computedValue: {
       get() {
-        // if (!this.value) return '';
+        if (!this.value) return '';
+
         if (this.type === 'date') {
-          return this.getDateString();
+          return this.dateString;
         } else if (this.type === 'time') {
-          return this.getTimeString();
+          return this.timeString;
         } else {
-          return this.value;
+          return this.localDateString;
         }
-        //
-        // let date = new Date(this.value);
-        //
-        // if (this.type === 'date') {
-        //   return date.toISOString().split('T')[0];
-        // }
-        // if (this.type === 'time') {
-        //   if (this.step && this.step % 60 !== 0) {
-        //     return date.toISOString().split('T')[1].split('.')[0];
-        //   } else {
-        //     return date.toISOString().split('T')[1].split('.')[0].slice(0, 5);
-        //   }
-        // }
-        // if (this.type === 'datetime-local') {
-        //   return date.toISOString().split('.')[0];
-        // }
       },
       set(value) {
         if (this.type === 'date') {
           this.setValueFromDate(value);
         } else if (this.type === 'time') {
           this.setValueFromTime(value);
+        } else {
+          this.setValueFromDatetimeLocalString(value);
         }
-
-        // let date;
-        // if (this.type === 'date') {
-        //   date = new Date(Date.parse(value + 'Z'));
-        // } else if (this.type === 'time') {
-        //   date = new Date(0);
-        //   const valueArr = value.split(':');
-        //   date.setUTCHours(valueArr[0], valueArr[1]);
-        //   valueArr[2] ? date.setUTCSeconds(valueArr[2]) : '';
-        // }
-        // if (this.type === 'datetime-local') {
-        //   date = new Date(value + 'Z');
-        // }
-        //
-        // // this.$emit('change', +date);
-        // if (typeof value === 'number') {
-        //   this.$emit('change', +date);
-        // } else if (typeof value === 'string') {
-        //   this.$emit('change', date);
-        // } else {
-        //   this.$emit('change', date);
-        //   // this.$emit('change', date.toISOString().split('T')[0]);
-        // }
       },
     },
-    listeners() {
-      return {
-        ...this.$listeners,
-        change: () => null,
-        // change: ($event) => {
-        //   let date;
-        //   if (this.type === 'date') {
-        //     date = Date.parse($event.target.value + 'Z');
-        //   } else if (this.type === 'time') {
-        //     date = new Date(0);
-        //     const valueArr = $event.target.value.split(':');
-        //     date.setUTCHours(valueArr[0], valueArr[1]);
-        //     valueArr[2] ? date.setUTCSeconds(valueArr[2]) : '';
-        //   }
-        //   if (this.type === 'datetime-local') {
-        //     date = new Date($event.target.value).toISOString();
-        //   }
-        //
-        //   // this.$emit('change', +date);
-        //   if (typeof this.value === 'number') {
-        //     this.$emit('change', +date);
-        //   } else if (typeof this.value === 'string') {
-        //     this.$emit('change', $event.target.value);
-        //   } else {
-        //     this.$emit('change', date);
-        //     // this.$emit('change', date.toISOString().split('T')[0]);
-        //   }
-        // },
-      };
-    },
-  },
-  methods: {
-    getDateString() {
+
+    dateString() {
       return new Date(this.value).toISOString().split('T')[0];
     },
-    setValueFromDate(value) {
-      let eventValue;
 
-      if (typeof this.value === 'number') {
-        eventValue = +new Date(value);
-      } else if (typeof this.value === 'string') {
-        eventValue = value;
-      } else {
-        eventValue = new Date(value);
-      }
-
-      this.$emit('change', eventValue);
-    },
-    getTimeString() {
+    timeString() {
       const date = new Date(this.value);
       const hours = date.getUTCHours() > 9 ? `${date.getUTCHours()}` : `0${date.getUTCHours()}`;
       const minutes = date.getUTCMinutes() > 9 ? `${date.getUTCMinutes()}` : `0${date.getUTCMinutes()}`;
 
-      return `${hours}:${minutes}`;
+      if(!this.step || this.step % 60 === 0) {
+        return `${hours}:${minutes}`;
+      }
+
+      const seconds= date.getUTCSeconds() > 9 ? `${date.getUTCSeconds()}` : `0${date.getUTCSeconds()}`;
+      return `${hours}:${minutes}:${seconds}`;
     },
+
+    localDateString() {
+      const date = new Date(this.value);
+
+      return date.toISOString().slice(0, 16);
+    },
+
+    listeners() {
+      return {
+        ...this.$listeners,
+        change: () => null,
+      };
+    },
+  },
+
+  methods: {
+    setValueFromDate(value) {
+      let eventValue;
+      let date = new Date(value)
+
+      if(!this.isValidDate(date)) {
+        this.$emit('change', null);
+        return
+      }
+
+      if (typeof this.value === 'number') {
+        eventValue = +date
+      } else if (typeof this.value === 'string') {
+        eventValue = value;
+      } else {
+        eventValue = date;
+      }
+
+      this.$emit('change', eventValue);
+    },
+
     setValueFromTime(value) {
       let eventValue;
-      const [hours, minutes] = value.split(':');
+      const [hours, minutes, seconds] = value.split(':');
       const date = new Date(this.value);
 
       date.setUTCHours(+hours);
       date.setUTCMinutes(+minutes);
+      if(seconds) {
+        date.setUTCSeconds(+seconds);
+      } else if(this.step % 60 !== 0) {
+        date.setUTCSeconds(0);
+      }
 
       if (typeof this.value === 'number') {
         eventValue = +date;
@@ -154,6 +121,22 @@ export default {
 
       this.$emit('change', eventValue);
     },
+
+    setValueFromDatetimeLocalString(value) {
+      let eventValue;
+
+      if(typeof this.value === 'number') {
+        eventValue = +new Date(value + 'z');
+      } else {
+        eventValue = new Date(value + 'z')
+      }
+
+      this.$emit('change', eventValue);
+    },
+
+    isValidDate(date) {
+      return date instanceof Date && !isNaN(date);
+    }
   },
 
   components: { AppInput },
