@@ -1,11 +1,6 @@
 <template>
   <div class="">
-    <meetups-view
-      v-bind:view.sync="view"
-      v-bind:date.sync="date"
-      v-bind:participation.sync="participation"
-      v-bind:search.sync="search"
-    />
+    <meetups-view :view.sync="view" :date.sync="date" :participation.sync="participation" :search.sync="search" />
     <!-- <h1 @:update:view.sync="view">{{view}}</h1> -->
   </div>
 </template>
@@ -23,37 +18,43 @@ export default {
   computed: {
     view: {
       get() {
-        return this.$route.query.view
+        return this.$route.query.view;
       },
+
       set(val) {
         val === 'list' ? this.removeQuery('view') : this.addQuery('view', val);
-      }
-    },
-    date: {
-      get() {
-        return this.$route.query.date
       },
-      set(val) {
-        val === 'all' ? this.removeQuery('date') : this.addQuery('date', val);
-      }
-    },
-    participation: {
-      get() {
-        return this.$route.query.participation
-      },
-      set(val) {
-        val === 'all' ? this.removeQuery('participation') : this.addQuery('participation', val);
-      }
-    },
-    search: {
-      get() {
-        return this.$route.query.search
-      },
-      set(val) {
-        val === '' ? this.removeQuery('search') : this.addQuery('search', val);
-      }
     },
 
+    date: {
+      get() {
+        return this.$route.query.date;
+      },
+
+      set(val) {
+        val === 'all' ? this.removeQuery('date') : this.addQuery('date', val);
+      },
+    },
+
+    participation: {
+      get() {
+        return this.$route.query.participation;
+      },
+
+      set(val) {
+        val === 'all' ? this.removeQuery('participation') : this.addQuery('participation', val);
+      },
+    },
+
+    search: {
+      get() {
+        return this.$route.query.search;
+      },
+
+      set(val) {
+        val === '' ? this.removeQuery('search') : this.addQuery('search', val);
+      },
+    },
   },
 
   // решить через watch удалось, но пришлось смотреть и за data, и за query роутера. Есть ли лучшее решение через watch?
@@ -108,28 +109,26 @@ export default {
 
   methods: {
     removeQuery(key) {
-      const newQuery = {...this.$route.query};
+      const newQuery = { ...this.$route.query };
       delete newQuery[key];
-      this.$router.push({query: newQuery})
-        .catch((err) => {
-          if(!isNavigationFailure(err, NavigationFailureType.duplicated)) {
-            throw err
-          }
-        });
+      this.$router.push({ query: newQuery }).catch((err) => {
+        if (!isNavigationFailure(err, NavigationFailureType.duplicated)) {
+          throw err;
+        }
+      });
     },
+
     addQuery(key, value) {
       const newQuery = {
         ...this.$route.query,
         [key]: value,
       };
-      this.$router.push({query: newQuery})
-        .catch((err) => {
-          if(!isNavigationFailure(err, NavigationFailureType.duplicated)) {
-            throw err
-          }
-        });
+      this.$router.push({ query: newQuery }).catch((err) => {
+        if (!isNavigationFailure(err, NavigationFailureType.duplicated)) {
+          throw err;
+        }
+      });
     },
-  }
-
+  },
 };
 </script>

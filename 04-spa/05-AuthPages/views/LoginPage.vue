@@ -2,12 +2,12 @@
   <form class="form" @submit.prevent="handleSubmit">
     <form-group label="Email">
       <div class="input-group">
-        <input type="email" placeholder="demo@email" class="form-control" v-model="email"/>
+        <input v-model="email" type="email" placeholder="demo@email" class="form-control" />
       </div>
     </form-group>
     <form-group label="Пароль">
       <div class="input-group">
-        <input type="password" placeholder="password" class="form-control" v-model="password"/>
+        <input v-model="password" type="password" placeholder="password" class="form-control" />
       </div>
     </form-group>
     <div class="form__buttons">
@@ -26,46 +26,47 @@ import FormGroup from '../../../03-sfc/02-FormGroup/components/FormGroup.vue';
 
 export default {
   name: 'LoginPage',
-  components: {FormGroup},
+  components: { FormGroup },
   data() {
     return {
       email: '',
       password: '',
-    }
+    };
   },
+
   methods: {
     handleSubmit() {
       const isCorrect = this.checkFormFields();
-      if(!isCorrect) return
+      if (!isCorrect) return;
 
-      login(this.email, this.password)
-        .then(res => {
-          if(res.error) {
-            alert(res.message);
-            return
-          }
+      login(this.email, this.password).then((res) => {
+        if (res.error) {
+          alert(res.message);
+          return;
+        }
 
-          alert(res.fullname);
+        alert(res.fullname);
 
-          const query = this.$route.query;
-          query.from ? this.$router.push(query.from) : this.$router.push('/');
-        });
+        const query = this.$route.query;
+        query.from ? this.$router.push(query.from) : this.$router.push('/');
+      });
     },
-    checkFormFields() {
-      const {email, password} = this;
 
-      if(!email) {
+    checkFormFields() {
+      const { email, password } = this;
+
+      if (!email) {
         alert('Требуется ввести Email');
         return false;
       }
-      if(!password) {
+      if (!password) {
         alert('Требуется ввести пароль');
         return false;
       }
 
-      return true
-    }
-  }
+      return true;
+    },
+  },
 };
 </script>
 
